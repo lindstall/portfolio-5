@@ -1,0 +1,80 @@
+---
+title: "portfolio 5"
+output: html_document
+date: "2023-04-16"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readxl)
+library(ggplot2)
+library(dplyr)
+df <- read_excel("/Users/lindsaystall/Downloads/PIRUS_Public_May2020.xlsx")
+df[df == -99 | df == -88] <- NA
+```
+
+```{r}
+recruiter_count <- df %>%
+  filter(Recruiter1 %in% c(1, 2, 3, 4)) %>%
+  group_by(Recruiter1) %>%
+  summarise(n = n()) %>%
+  arrange(Recruiter1)
+  
+recruiter_count
+```
+
+```{r}
+ggplot(recruiter_count, aes(x = factor(Recruiter1), y = n, fill = factor(Recruiter1))) +
+  geom_bar(stat = "identity", width = 0.7) +
+  labs(title = "Types of Terrorist Recruiters",
+       x = "Recruiter Type",
+       y = "Number of Individuals") +
+  scale_fill_manual(values = c("#1B9E77", "#D95F02", "#7570B3", "#E7298A"),
+                    name = "Recruiter Category",
+                    labels = c("Associate(s) or member(s) of a terrorist or violent extremist group",
+                               "Family Member",
+                               "Friend",
+                               "Other")) +
+  theme_bw() +
+  theme(panel.grid.major.x = element_blank())
+```
+
+
+Most people were recruited by associates or members of a terrorist or violent extremist group.
+
+```{r}
+df_filtered <- df %>%
+  filter(Actively_Connect %in% c(0, 1, 2))
+
+df_counts <- df_filtered %>%
+  group_by(Actively_Connect) %>%
+  summarise(count = n())
+
+df_counts$Actively_Connect <- factor(df_counts$Actively_Connect, levels = c("0", "1", "2"), labels = c("No", "Yes, prior to ideologically motivated radical behaviors", "Yes, after ideologically motivated radical behaviors"))
+
+
+ggplot(df_counts, aes(x = Actively_Connect, y = count, fill = Actively_Connect)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Did they Actively Connect?", y = "Number of individuals", title = "Did Individuals Actively Connect With Terrorist Organizations") +
+  theme_minimal()
+```
+
+
+Most individuals did not actively try to connect with terrorist organizations.
+
+```{r}
+ggplot(df, aes(x = Role_Group)) +
+  geom_histogram(binwidth = 1, color = "black", fill = "lightblue") +
+  scale_x_continuous(breaks = c(1, 2, 3)) +
+  xlab("Role Group") +
+  ylab("Count") +
+  ggtitle("Histogram of Role Group")
+```
+At the time of public exposure, most people were unsuprisingly followers of the terrorist organization (2). Next mostly likely, they were leaders (3). And least likely by far, were people considered loose associates.
+
+
+
+
+
+
