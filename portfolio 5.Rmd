@@ -30,7 +30,7 @@ ggplot(recruiter_count, aes(x = factor(Recruiter1), y = n, fill = factor(Recruit
   labs(title = "Types of Terrorist Recruiters",
        x = "Recruiter Type",
        y = "Number of Individuals") +
-  scale_fill_manual(values = c("#1B9E77", "#D95F02", "#7570B3", "#E7298A"),
+  scale_fill_manual(values = c("lightpink1", "plum4", "mediumslateblue", "powderblue"),
                     name = "Recruiter Category",
                     labels = c("Associate(s) or member(s) of a terrorist or violent extremist group",
                                "Family Member",
@@ -71,6 +71,9 @@ ggplot(df, aes(x = Role_Group)) +
   ylab("Count") +
   ggtitle("Histogram of Role Group")
 ```
+
+
+
 At the time of public exposure, most people were unsuprisingly followers of the terrorist organization (2). Next mostly likely, they were leaders (3). And least likely by far, were people considered loose associates.
 
 
